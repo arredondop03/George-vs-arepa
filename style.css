@@ -2,5 +2,5 @@ body{
   margin: 0;
 }
 canvas{
-  background-color: #EFB1E2;
+  background: linear-gradient(to right, rgb(245, 228, 78),rgb(243, 153, 93)) 
 }
