@@ -8,10 +8,11 @@ window.onload = function(){
   canvas.height = window.innerHeight;
 
   //Variables
-  var theImage;
   var boxes = [];
+  var imgArepa = new Image();
+  imgArepa.src = 'images/reina-pepiada.png';
 
-  //////////////////CONSTRUCTOR FUNCTIONS////////////
+  //////////////////  CONSTRUCTOR FUNCTIONS  ////////////////////////
 
   //Game constructor function
   function Game(){
@@ -25,8 +26,6 @@ window.onload = function(){
     this.width = 72;
     this.height = 72;
   }
-  var imgArepa = new Image();
-  imgArepa.src = 'images/reina-pepiada.png';
 
   //George constructor function
   var George = function(){
@@ -41,25 +40,15 @@ window.onload = function(){
 
   
 
-  //////////////////DECLARATION OF CONSTRUCTOR FUNCTIONS////////////
+  //////////////////  DECLARATION OF CONSTRUCTOR FUNCTIONS  /////////
 
   var game = new Game();
-  // var box = new Box();
   var theGeorge = new George();
   
-
-
-
   
-  
-  //////////////////PROTOTYPES////////////
+  //////////////////  PROTOTYPES  ///////////////////////////////////
 
-  // Game.prototype.image = function () {
-  // this.height = 40;
-  // this.x = x;
-  // this.y = y;
-  // }
-
+  ///Obsticles!------
   Game.prototype.generateBoxes = function(){
       for(var i=0; i < 21; i++){
         var randomI = Math.floor((Math.random() * 20))
@@ -67,17 +56,6 @@ window.onload = function(){
         boxes.push(newBox);
       }
 
-  }
-
-  Game.prototype.generateBooster = function(){
-    // var randomMaxAmount = Math.floor((Math.random() * 5));
-    // for(var i=0; i <randomMaxAmount; i++){
-
-    // }
-
-    setInterval(function(){
-      
-    })
   }
 
   Game.prototype.drawBoxes = function(){
@@ -88,43 +66,15 @@ window.onload = function(){
     }
   }
 
-  Game.prototype.animate = function(){
-    setInterval(function(){
-      ctx.clearRect(0,0,canvas.width,canvas.height)
-      
-      game.drawBoxes();
-      game.george.drawGeorge();
-     
-      for(var i = 0; i <  boxes.length; i++) {
-        if (boxes[i].x < theGeorge.x + theGeorge.width && //from left
-          boxes[i].x + boxes[i].width > theGeorge.x &&    //from right
-          boxes[i].y < theGeorge.y + theGeorge.height &&  //from top
-          boxes[i].height + boxes[i].y > theGeorge.y)     //from bottom
-          {
-          // collision detected!
-          console.log('georges health', theGeorge.health)
-          boxes.splice(i,1);
-          theGeorge.health--;
-
-          //crear un boolean  a false, y cuando collide lo pones true 
-          //falso, toca true, esperar falso de nuevo
-      }
-    }
-    },17);
-    
-
-
+  Box.prototype.drawArepas = function(){
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
+ /// End of obsticles----
  
+ ///Character/ character movement
   George.prototype.drawGeorge = function(){
   ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
-
-  Box.prototype.drawArepas = function(){
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-
-  }
-
 
   George.prototype.move = function(theX, theY){
     ctx.clearRect(this.x, this.y, this.width, this.height);
@@ -132,78 +82,81 @@ window.onload = function(){
       this.y = theY
       if(game.george.canMove(this.x, this.y)) {
         game.george.drawGeorge();
-        // ctx.drawImage(this.theImage, this.x, this.y, this.width, this.height);
       }
   }
 
+  //makes sure that the image doenst go pass the border
   George.prototype.canMove = function (futurex, futurey) {
-  // if(
-  //   futurex + this.width >= currentGame.obstacle.x &&
-  //   futurex <= currentGame.obstacle.x + currentGame.obstacle.width &&
-  //   futurey + this.height >= currentGame.obstacle.y &&
-  //   futurey <= currentGame.obstacle.y + currentGame.obstacle.height
-  //   ){
-  //     return false
-  //   } else 
-    if(
-      futurex + this.width >= canvas.width){
-        this.x =canvas.width-50;
+    if (futurex + this.width >= canvas.width) {
+        this.x =canvas.width- this.width;
       } else if(futurex <= 0 ||
         futurey + this.height >= canvas.height ||
         futurey <= 0){
-
-          return false
-        }
-      {
+        return false
+      } else {
         return true;
     }
   }
+  /// End of character movement----
+
+
+  //ANIMATE!!!-------
+  Game.prototype.animate = function(){
+  setInterval(function(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+    game.drawBoxes();
+    game.george.drawGeorge();
+    for(var i = 0; i <  boxes.length; i++) {
+      if (boxes[i].x < theGeorge.x + theGeorge.width && //from left
+        boxes[i].x + boxes[i].width > theGeorge.x &&    //from right
+        boxes[i].y < theGeorge.y + theGeorge.height &&  //from top
+        boxes[i].height + boxes[i].y > theGeorge.y)     //from bottom
+        {
+          // collision detected!
+          console.log('georges health', theGeorge.health)
+          boxes.splice(i,1);
+          theGeorge.health--;
+        }
+      }
+    },17);
+  }
   
+  /////////////  END OF PROTOTYPES  /////////////////////////////////
+  
+
+  //////////////////  CALLING PROTOTYPES  ///////////////////////////
+
+  game.generateBoxes();
+  game.animate();
+  game.george = theGeorge;  
+
+  
+  //////////////////   FUNCTIONS   //////////////////////////////////
 
   //Function to generate row every ten seconds
   setInterval(function(){
     game.generateBoxes();
   },3800);
 
-  //////////////////CALLING PROTOTYPES////////////
-
-  game.generateBoxes();
-  game.animate();
-
- 
-  game.george = theGeorge;  //------------WHAT IS THIS?-------------------------- FROM HERE DOWN
-
-  
+  //mouse movement function
 
   function mousePos(e) {
-  
     if (e.offsetX) {
-      // console.log('here')
-      // console.log('george',theGeorge.x)
         mouseX = e.offsetX;
         mouseY = e.offsetY;
-    }
-    else if (e.layerX) {
-      
+    } else if (e.layerX) {
         mouseX = e.layerX;
         mouseY = e.layerY;
     }
-
     theGeorge.move(mouseX, mouseY)
-
   }
 
   $(function () { 
     canvas.onmousemove = mousePos;
   });
 
+  //////////////////  END OF FUNCTIONS  /////////////////////////////
   
-
-  window.addEventListener('mousemove', function(){
-    // console.log('hiii');
-  })
-
-
-
-
+  
 }
