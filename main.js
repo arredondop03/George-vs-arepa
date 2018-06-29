@@ -1,4 +1,8 @@
 // Loading page
+
+// document.getElementById('button').oncl
+
+// function startGame(){
 window.onload = function(){
 
   //Setting up canvas
@@ -7,12 +11,6 @@ window.onload = function(){
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  function drawCircle(){
-  var randomX = Math.floor(Math.random() * canvas.width)
-  ctx.beginPath();
-  ctx.arc(100,75,5,0,2*Math.PI);
-  ctx.stroke();
-  }
 
   //Variables
   var boxes = [];
@@ -21,6 +19,17 @@ window.onload = function(){
   var circles = [];
   var imgHerb = new Image();
   imgHerb.src = 'images/herbalife1.png';
+
+  //drawing text (im tired so fix it later please!)
+  function drawScore() {
+    // var ctx = document.getElementById('canvas').getContext('2d');
+    ctx.font = '48px serif';
+    ctx.fillText('Score', 10, 50);
+    ctx.fillText(theGeorge.health, 10, 100);
+
+
+  }
+  
 
   //////////////////  CONSTRUCTOR FUNCTIONS  ////////////////////////
 
@@ -150,6 +159,7 @@ window.onload = function(){
     game.drawCircles();
     game.drawBoxes();
     game.george.drawGeorge();
+    drawScore();
     
     for(var i = 0; i <  boxes.length; i++) {
       if (boxes[i].x < theGeorge.x + theGeorge.width && //from left
@@ -235,3 +245,4 @@ window.onload = function(){
 
 
 }
+// }

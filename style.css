@@ -1,6 +1,8 @@
 body{
   margin: 0;
+  background: pink;
 }
 canvas{
   background: linear-gradient(to right, rgb(245, 228, 78),rgb(243, 153, 93)) 
 }
+
