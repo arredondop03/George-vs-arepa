@@ -1,9 +1,9 @@
 // Loading page
+$("#canvas").toggle()
 
-// document.getElementById('button').oncl
+function begin(){
 
-// function startGame(){
-window.onload = function(){
+// window.onload = function(){
 
   //Setting up canvas
   var canvas = document.querySelector('canvas');
@@ -22,7 +22,6 @@ window.onload = function(){
 
   //drawing text (im tired so fix it later please!)
   function drawScore() {
-    // var ctx = document.getElementById('canvas').getContext('2d');
     ctx.font = '48px serif';
     ctx.fillText('Score', 10, 50);
     ctx.fillText(theGeorge.health, 10, 100);
@@ -35,7 +34,9 @@ window.onload = function(){
 
   //Game constructor function
   function Game(){
-    this.george = {}
+    this.george = {};
+    this.speed = 1;
+    
   }
 
   //Box constructor function
@@ -79,17 +80,24 @@ window.onload = function(){
 
   ///Obsticles!------
   Game.prototype.generateBoxes = function(){
+   
+
+
+
+
       for(var i=0; i < 21; i++){
         var randomI = Math.floor((Math.random() * 20))
         var newBox = new Box(randomI *73, 0);
         boxes.push(newBox);
       }
-
+     
+   
   }
 
   Game.prototype.drawBoxes = function(){
     for(var i=0; i < boxes.length; i++){
-      boxes[i].y += 1;
+
+      boxes[i].y += game.speed;
     // ctx.fillRect(boxes[i].x, boxes[i].y, 72, 72);
     ctx.drawImage(imgArepa, boxes[i].x, boxes[i].y, 72, 72 )
     }
@@ -184,6 +192,7 @@ window.onload = function(){
           theGeorge.health += 3; 
           }
         }
+        
   
 
     },17);
@@ -202,16 +211,10 @@ window.onload = function(){
   
   //////////////////   FUNCTIONS   //////////////////////////////////
 
-  //Function to generate row every ten seconds
   setInterval(function(){
     game.generateBoxes();
   },3800);
 
-  setInterval(function(){
-    game.generateCircles();
-  }, 3000);
-
-  //mouse movement function
 
   function mousePos(e) {
     if (e.offsetX) {
@@ -231,18 +234,15 @@ window.onload = function(){
   //////////////////  END OF FUNCTIONS  /////////////////////////////
   
   
-    
-  
+}
 
-  
-// collision detected!
-
-
-
-
-
-
-
+document.getElementById('button').onclick = function(){
+console.log('Start Button clicked');
+$("#canvas").toggle()
+$("#button").toggle()
+begin();
 
 }
-// }
+
+
+

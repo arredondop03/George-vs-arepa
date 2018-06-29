@@ -1,8 +1,26 @@
+html {
+  height: 100%;
+}
+
 body{
+  min-height: 100%;
+
   margin: 0;
-  background: pink;
+  
+  background-image: url('./images/Webp.net-compress-image.jpg');
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 canvas{
   background: linear-gradient(to right, rgb(245, 228, 78),rgb(243, 153, 93)) 
+}
+
+button{
+  height: 70px;
+  width: 150px;
+  border-radius: 20px;
+  font-size: 20px;
 }
 
