@@ -7,10 +7,20 @@ window.onload = function(){
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
+  function drawCircle(){
+  var randomX = Math.floor(Math.random() * canvas.width)
+  ctx.beginPath();
+  ctx.arc(100,75,5,0,2*Math.PI);
+  ctx.stroke();
+  }
+
   //Variables
   var boxes = [];
   var imgArepa = new Image();
   imgArepa.src = 'images/reina-pepiada.png';
+  var circles = [];
+  var imgHerb = new Image();
+  imgHerb.src = 'images/herbalife1.png';
 
   //////////////////  CONSTRUCTOR FUNCTIONS  ////////////////////////
 
@@ -37,6 +47,16 @@ window.onload = function(){
     this.img.src = 'images/george_harris.png';  
     this.health = 20;
   }
+  
+  //Circle constructor function
+  function Circle(x,y){
+    this.x = x ;
+    this.y = y;
+    this.raius = 5;
+    this.width = 72;
+    this.height = 72;
+  }
+
 
   
 
@@ -66,12 +86,35 @@ window.onload = function(){
     }
   }
 
-  Box.prototype.drawArepas = function(){
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  
+  /// End of obsticles----
+
+  //More points------
+
+  Game.prototype.generateCircles = function(){
+    randomNumber = Math.floor(Math.random() * 4)
+    for(var i=0; i < randomNumber; i++){
+  var randomX = Math.floor(Math.random() * canvas.width)
+  var randomY = Math.floor(Math.random() * canvas.height)
+  
+      var newCircle = new Circle(randomX,randomY);
+      circles.push(newCircle);
+    }
+
   }
- /// End of obsticles----
+
+  Game.prototype.drawCircles = function(){
+    for(var i=0; i < circles.length; i++){
+    circles[i].y += 1;
+    ctx.drawImage(imgHerb, circles[i].x, circles[i].y, 80, 72 )
+    }
+  }
+    
+
+
+
  
- ///Character/ character movement
+  ///Character/ character movement
   George.prototype.drawGeorge = function(){
   ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
@@ -103,22 +146,36 @@ window.onload = function(){
   //ANIMATE!!!-------
   Game.prototype.animate = function(){
   setInterval(function(){
-
-    ctx.clearRect(0,0,canvas.width,canvas.height)
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    game.drawCircles();
     game.drawBoxes();
     game.george.drawGeorge();
+    
     for(var i = 0; i <  boxes.length; i++) {
       if (boxes[i].x < theGeorge.x + theGeorge.width && //from left
         boxes[i].x + boxes[i].width > theGeorge.x &&    //from right
         boxes[i].y < theGeorge.y + theGeorge.height &&  //from top
         boxes[i].height + boxes[i].y > theGeorge.y)     //from bottom
         {
-          // collision detected!
-          console.log('georges health', theGeorge.health)
-          boxes.splice(i,1);
-          theGeorge.health--;
-        }
+        console.log('georges health', theGeorge.health)
+        boxes.splice(i,1);
+        theGeorge.health--; 
       }
+    }
+
+      for(var i = 0; i <  circles.length; i++) {
+        if (circles[i].x < theGeorge.x + theGeorge.width && //from left
+          circles[i].x + circles[i].width > theGeorge.x &&    //from right
+          circles[i].y < theGeorge.y + theGeorge.height &&  //from top
+          circles[i].height + circles[i].y > theGeorge.y)     //from bottom
+          {
+          console.log('georges health', theGeorge.health)
+          circles.splice(i,1);
+          theGeorge.health += 3; 
+          }
+        }
+  
+
     },17);
   }
   
@@ -128,6 +185,7 @@ window.onload = function(){
   //////////////////  CALLING PROTOTYPES  ///////////////////////////
 
   game.generateBoxes();
+  game.generateCircles();
   game.animate();
   game.george = theGeorge;  
 
@@ -138,6 +196,10 @@ window.onload = function(){
   setInterval(function(){
     game.generateBoxes();
   },3800);
+
+  setInterval(function(){
+    game.generateCircles();
+  }, 3000);
 
   //mouse movement function
 
@@ -159,4 +221,17 @@ window.onload = function(){
   //////////////////  END OF FUNCTIONS  /////////////////////////////
   
   
+    
+  
+
+  
+// collision detected!
+
+
+
+
+
+
+
+
 }
