@@ -14,9 +14,9 @@ function begin(){
 
   //Variables
   var boxes = [];
+  var circles = [];
   var imgArepa = new Image();
   imgArepa.src = 'images/reina-pepiada.png';
-  var circles = [];
   var imgHerb = new Image();
   imgHerb.src = 'images/herbalife1.png';
 
@@ -86,9 +86,12 @@ function begin(){
 
 
       for(var i=0; i < 21; i++){
-        var randomI = Math.floor((Math.random() * 20))
-        var newBox = new Box(randomI *73, 0);
-        boxes.push(newBox);
+        var randomI = Math.floor((Math.random()*4))
+        console.log('ddedwde',randomI)
+        var newBox = new Box(i *73, 0);
+        if(randomI == 1 || randomI==2 || randomI == 3 ){
+          boxes.push(newBox);
+        }
       }
      
    
@@ -169,7 +172,8 @@ function begin(){
     game.george.drawGeorge();
     drawScore();
     
-    for(var i = 0; i <  boxes.length; i++) {
+      for(var i = 0; i <  boxes.length; i++) {
+
       if (boxes[i].x < theGeorge.x + theGeorge.width && //from left
         boxes[i].x + boxes[i].width > theGeorge.x &&    //from right
         boxes[i].y < theGeorge.y + theGeorge.height &&  //from top
@@ -180,7 +184,6 @@ function begin(){
         theGeorge.health--; 
       }
     }
-
       for(var i = 0; i <  circles.length; i++) {
         if (circles[i].x < theGeorge.x + theGeorge.width && //from left
           circles[i].x + circles[i].width > theGeorge.x &&    //from right
@@ -194,7 +197,6 @@ function begin(){
         }
         
   
-
     },17);
   }
   
