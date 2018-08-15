@@ -182,6 +182,12 @@ function begin(){
         console.log('georges health', theGeorge.health)
         boxes.splice(i,1);
         theGeorge.health--; 
+       
+        modal.style.display = "block"
+          if(theGeorge.health === 0){
+            alert("GAME OVER");
+            document.location.reload();            
+          }
       }
     }
       for(var i = 0; i <  circles.length; i++) {
